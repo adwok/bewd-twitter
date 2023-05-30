@@ -1,4 +1,5 @@
 class TweetsController < ApplicationController
+
   def create
     @tweet = Tweet.new(tweet_params)
     token = cookies.permanent.signed[:twitter_session_token]
@@ -37,12 +38,8 @@ class TweetsController < ApplicationController
   end
 
   def index_by_user
-    token = cookies.permanent.signed[:twitter_session_token]
-    session = Session.find_by(token: token)
-    if session
-      @user = session.user
-      @tweets = Tweets.find_by(username: @user.username).all
-    end
+    @user = User.find_by(username: params[:username])
+    @tweets = Tweet.find_by(username: @user.username).all
   end
     
   private
@@ -50,9 +47,5 @@ class TweetsController < ApplicationController
     def tweet_params
       params.require(:tweet).permit(:message)
     end
-
-  
-
-  
 
 end
