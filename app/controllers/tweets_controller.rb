@@ -39,7 +39,7 @@ class TweetsController < ApplicationController
 
   def index_by_user
     @user = User.find_by(username: params[:username])
-    @tweets = Tweet.find_by(username: @user.username).all
+    @tweets = @user.tweets
   end
     
   private
